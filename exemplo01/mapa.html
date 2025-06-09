@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset=" UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API MapBox</title>
+    <link rel="stylesheet" href="estilo.css">
+    <!-- CSS do Mapbox -->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+    <!-- JS do Mapbox -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <script src="app.js"></script>
+</head>
+
+<body>
+    <header>
+        <a href="./index.html">Home</a>
+    </header>
+    <main>
+        <div id="barralateral">
+            <input id="nome" type="text" placeholder="nome">
+            <input id="latitude" type="text" placeholder="latitude">
+            <input id="longitude" type="text" placeholder="longitude">
+            <button id="botaoLocalizacao" onclick="processar()">Ok</button>
+        </div>
+        <div id="map"></div>
+    </main>
+    <footer>
+        <a href="https://www.mapbox.com/">API MapBox</a>
+    </footer>
+</body>
+
+</html>
