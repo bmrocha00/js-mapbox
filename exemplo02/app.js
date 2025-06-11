@@ -1,4 +1,5 @@
-const centralLatLong = [-43.9397233, -19.9332786]; // Ponto central do mapa (Belo Horizonte)
+var id = 9;
+const centralLatLong = [-43.9397233, -19.9332786]; // Ponto central do mapa (Belo Horizonte).
 
 const locais = [
     {
@@ -96,13 +97,13 @@ const locais = [
 
 let map;
 
-// Função que carrega os dados de unidades da PUC Minas
+// Função que carrega os dados de unidades da PUC Minas:
 window.onload = () => {
     montarMapa(locais);
 }
 
 function montarMapa(dadosLocais) {
-    // Defina o Access Token do Mapbox
+    // Defina o Access Token do Mapbox:
     mapboxgl.accessToken = 'pk.eyJ1Ijoicm9tbWVsY2FybmVpcm8tcHVjIiwiYSI6ImNsb3ZuMTBoejBsd2gyamwzeDZzcWl5b3oifQ.VPWc3qoyon8Z_-URfKpvKg';
     map = new mapboxgl.Map({
         container: 'map', // O container do mapa
@@ -111,7 +112,7 @@ function montarMapa(dadosLocais) {
         zoom: 9 // Zoom inicial
     });
 
-    // Adiciona marcadores para cada local
+    // Adiciona marcadores para cada local:
     dadosLocais.forEach((uni) => {
         let popup = new mapboxgl.Popup({ offset: 25 })
             .setHTML(`<h3><a href="${uni.url}" target="_blank">${uni.descricao}</a></h3><br>${uni.endereco} <br> ${uni.cidade}`);
@@ -121,11 +122,11 @@ function montarMapa(dadosLocais) {
             .addTo(map);
     });
 
-    // Obtém a localização do usuário e adiciona um marcador
+    // Obtém a localização do usuário e adiciona um marcador:
     navigator.geolocation.getCurrentPosition(processarGetCurrentPosition, () => { alert('Erro ao obter localização.') });
 }
 
-// Função para processar a localização do usuário
+// Função para processar a localização do usuário:
 function processarGetCurrentPosition(local) {
     let popup = new mapboxgl.Popup({ offset: 25 })
         .setHTML(`<h3> Estou aqui!!! </h3>`);
@@ -134,3 +135,36 @@ function processarGetCurrentPosition(local) {
         .setPopup(popup)
         .addTo(map);
 }
+
+function processar() {
+    const nome = document.getElementById("nome").value.trim();
+    const latitude = document.getElementById("latitude").value.trim();
+    const longitude = document.getElementById("longitude").value.trim();
+
+    var local = {
+        "id": id++,
+        "descricao": "informar...",
+        "endereco": "informar...",
+        "favorito": true,
+        "cidade": nome,
+        "latlong": [
+            latitude,
+            longitude
+        ],
+        "url": "informar",
+        "cor": "purple"
+    };
+
+    processarPosicao(local);
+}
+
+// Função para processar a localização:
+function processarPosicao(local) {
+    let popup = new mapboxgl.Popup({ offset: 25 })
+        .setHTML(`<h3>${local.cidade}</h3> ${local.descricao}<br>${local.endereco}`);
+    const marker = new mapboxgl.Marker({ color: local.cor })
+        .setLngLat([local.latlong[1], local.latlong[0]])
+        .setPopup(popup)
+        .addTo(map);
+}
+
