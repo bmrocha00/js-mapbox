@@ -147,19 +147,22 @@ function processar() {
     const nome = document.getElementById("nome").value.trim();
     const latitude = document.getElementById("latitude").value.trim();
     const longitude = document.getElementById("longitude").value.trim();
+    const endereco = document.getElementById("endereco").value.trim();
+    const sum = document.getElementById("descricao").value.trim();
+    const url = document.getElementById("url").value.trim();
     const cor = document.getElementById("cor").value;
 
     var local = {
         "id": id++,
-        "descricao": "informar...",
-        "endereco": "informar...",
+        "descricao": sum,
+        "endereco": endereco,
         "favorito": true,
         "cidade": nome,
         "latlong": [
             latitude,
             longitude
         ],
-        "url": "informar",
+        "url": url,
         "cor": cor
     };
 
@@ -169,7 +172,10 @@ function processar() {
 // Função para processar a localização:
 function processarPosicao(local) {
     let popup = new mapboxgl.Popup({ offset: 25 })
-        .setHTML(`<h3>${local.cidade}</h3>
+        .setHTML(`<h3>
+                <a href="${local.url}" target="_blank">
+                ${local.cidade}</h3>
+                </a>
                   ${local.descricao}<br>
                   ${local.endereco}`);
 
