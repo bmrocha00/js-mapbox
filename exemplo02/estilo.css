@@ -93,7 +93,9 @@ input {
 }
 
 #cor {
-  appearance: none; /* Remove o estilo padrão. */
+  appearance: none; /* Remove o estilo padrão. O outro valor possível é 'auto'. */
+  -webkit-appearance: none; /* Remove o estilo padrão nos navegadores Safari e Chrome. O outro valor possível é 'auto'. */
+  -moz-appearance: none;    /* Remove o estilo padrão no navegador Firefox. O outro valor possível é 'auto'. */
   border: none;
   width: 10.9rem; /* Largura do retângulo. */
   height: 2.5rem; /* Altura do retângulo. */
