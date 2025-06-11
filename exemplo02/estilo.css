@@ -92,6 +92,14 @@ input {
     padding: .5rem;
 }
 
+#cor {
+  appearance: none; /* Remove o estilo padrão. */
+  border: none;
+  width: 10.9rem; /* Largura do retângulo. */
+  height: 2.5rem; /* Altura do retângulo. */
+  cursor: pointer;
+}
+
 .mapboxgl-popup-content {
     background: white;
     color: black;

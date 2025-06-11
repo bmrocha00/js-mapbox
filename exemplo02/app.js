@@ -143,6 +143,7 @@ function processar() {
     const nome = document.getElementById("nome").value.trim();
     const latitude = document.getElementById("latitude").value.trim();
     const longitude = document.getElementById("longitude").value.trim();
+    const cor = document.getElementById("cor").value;
 
     var local = {
         "id": id++,
@@ -155,7 +156,7 @@ function processar() {
             longitude
         ],
         "url": "informar",
-        "cor": "purple"
+        "cor": cor
     };
 
     processarPosicao(local);
