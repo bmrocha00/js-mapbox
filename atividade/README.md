@@ -1,6 +1,10 @@
 # Atividade
 
-1) Altere o "exemplo02", permitindo que o usuário informe a descrição, endereço e URL (opcional) do local. Refatore o exemplo, permitindo o reaproveitamento de código. Por exemplo: eliminando as repetições que se assemelham ao trecho de código abaixo:
+1) Altere o "exemplo02":
+
+a) Permitindo que o usuário informe a descrição, endereço e URL (opcional) do local.
+
+b) Refatorando o exemplo, para permitir o reaproveitamento de código. Por exemplo: eliminando as repetições que se assemelham ao trecho de código abaixo:
 
 ```js
 let popup = new mapboxgl.Popup({ offset: 25 })
@@ -18,3 +22,5 @@ const marker = new mapboxgl.Marker({ color: local.cor })
     .addTo(map);
 
 ```
+
+c) Permitindo o armazenamento, leitura, alteração e exclusão dos dados no `JSONServer`. O `JSONServer` deve rodar no `Replit.com`.
