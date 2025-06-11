@@ -114,7 +114,11 @@ function montarMapa(dadosLocais) {
     // Adiciona marcadores para cada local:
     dadosLocais.forEach((local) => {
         let popup = new mapboxgl.Popup({ offset: 25 })
-            .setHTML(`<h3><a href="${local.url}" target="_blank">${local.descricao}</a></h3>
+            .setHTML(`<h3>
+                        <a href="${local.url}" target="_blank">
+                          ${local.descricao}
+                        </a>
+                      </h3>
                       <br>${local.endereco} 
                       <br> ${local.cidade}`);
 

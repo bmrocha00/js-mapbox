@@ -1,6 +1,6 @@
 # Atividade
 
-1) Altere o "exemplo02", permitindo que o usuário informe a descrição, endereço e URL (opcional) do local. Refatore o exemplo, permitindo o reaproveitamento de código. Por exemplo: eliminando as repetições do trecho de código abaixo:
+1) Altere o "exemplo02", permitindo que o usuário informe a descrição, endereço e URL (opcional) do local. Refatore o exemplo, permitindo o reaproveitamento de código. Por exemplo: eliminando as repetições que se assemelham ao trecho de código abaixo:
 
 ```js
 let popup = new mapboxgl.Popup({ offset: 25 })
