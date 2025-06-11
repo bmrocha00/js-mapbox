@@ -23,4 +23,4 @@ const marker = new mapboxgl.Marker({ color: local.cor })
 
 ```
 
-c) Permitindo o armazenamento, leitura, alteração e exclusão dos dados no `JSONServer`. O `JSONServer` deve rodar no `Replit.com`.
+c) Permitindo o armazenamento, leitura, alteração e exclusão dos dados no `JSONServer`. O `JSONServer` deve rodar no `Replit.com` (https://replit.com/).
