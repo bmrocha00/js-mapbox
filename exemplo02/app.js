@@ -1,186 +1,250 @@
+const URL = 'https://b5a447f9-cabb-45b8-805f-f98beefa428e-00-2xhlexjgiir5f.janeway.replit.dev/locais';
+
+const centralLatLong = [-43.9397233, -19.9332786];
 let map;
-let id = 9;
-const centralLatLong = [-43.9397233, -19.9332786]; // Ponto central do mapa (Belo Horizonte).
 
-const locais = [
-    {
-        "id": 1,
-        "descricao": "PUC Minas - Coração Eucarístico",
-        "endereco": "Rua Dom José Gaspar, 500",
-        "favorito": true,
-        "cidade": "Belo Horizonte",
-        "latlong": [
-            -43.992911,
-            -19.923564
-        ],
-        "url": "https://www.pucminas.br",
-        "cor": "red"
-    },
-    {
-        "id": 2,
-        "descricao": "PUC Minas - Praça da Liberdade",
-        "endereco": "Av. Brasil, 2023 - Funcionários",
-        "favorito": false,
-        "cidade": "Belo Horizonte",
-        "latlong": [
-            -43.9397233,
-            -19.9332786
-        ],
-        "url": "https://www.pucminas.br/unidade/praca-da-liberdade/Paginas/default.aspx",
-        "cor": "red"
-    },
-    {
-        "id": 3,
-        "descricao": "PUC Minas - Barreiro",
-        "endereco": "Avenida Afonso Vaz de Melo, 1.200 - Barreiro",
-        "favorito": true,
-        "cidade": "Belo Horizonte",
-        "latlong": [
-            -44.025818,
-            -19.976609
-        ],
-        "url": "https://www.pucminas.br/unidade/barreiro/Paginas/default.aspx",
-        "cor": "red"
-    },
-    {
-        "id": 4,
-        "descricao": "PUC Minas - São Gabriel",
-        "endereco": "Rua Walter Ianni, 255 - São Gabriel",
-        "favorito": true,
-        "cidade": "Belo Horizonte",
-        "latlong": [
-            -43.917967,
-            -19.859226
-        ],
-        "url": "https://www.pucminas.br/unidade/sao-gabriel/Paginas/default.aspx",
-        "cor": "red"
-    },
-    {
-        "id": 5,
-        "descricao": "PUC Minas - Contagem",
-        "endereco": "R. Rio Comprido, 4.580",
-        "favorito": false,
-        "cidade": "Contagem",
-        "latlong": [
-            -44.076069,
-            -19.939135
-        ],
-        "url": "https://www.pucminas.br/unidade/contagem/Paginas/default.aspx",
-        "cor": "blue"
-    },
-    {
-        "id": 6,
-        "descricao": "PUC Minas - Betim",
-        "endereco": "R. do Rosário, 1.081 Bairro Angola",
-        "favorito": true,
-        "cidade": "Betim",
-        "latlong": [
-            -44.1984331,
-            -19.9550716
-        ],
-        "url": "https://www.pucminas.br/unidade/betim/Paginas/default.aspx",
-        "cor": "blue"
-    },
-    {
-        "id": 7,
-        "descricao": "PUC Minas - Poços de Caldas",
-        "endereco": "Av. Pe. Cletus Francis Cox, 1.661",
-        "favorito": true,
-        "cidade": "Poços de Caldas",
-        "latlong": [
-            -46.5944649,
-            -21.78904
-        ],
-        "url": "https://www.pucpcaldas.br/",
-        "cor": "green"
-    }
-]
+function criarMarcador(local) {
+    let popup = new mapboxgl.Popup({ offset: 25 })
+        .setHTML(`
+            <h3><a href="${local.url}" target="_blank">${local.descricao}</a></h3>
+            <br>${local.endereco}<br>${local.cidade}
+        `);
 
-// Função que carrega os dados de unidades da PUC Minas:
-window.onload = () => {
-    montarMapa(locais);
-}
+    const longitude = Number(local.latlong[0]);
+    const latitude = Number(local.latlong[1]);
 
-function montarMapa(dadosLocais) {
-    // Defina o Access Token do Mapbox:
-    mapboxgl.accessToken = 'pk.eyJ1Ijoicm9tbWVsY2FybmVpcm8tcHVjIiwiYSI6ImNsb3ZuMTBoejBsd2gyamwzeDZzcWl5b3oifQ.VPWc3qoyon8Z_-URfKpvKg';
-    map = new mapboxgl.Map({
-        container: 'map', // O container do mapa.
-        style: 'mapbox://styles/mapbox/streets-v12', // Estilo do mapa.
-        center: centralLatLong, // Localização central do mapa
-        zoom: 9 // Zoom inicial.
-    });
-
-    // Adiciona marcadores para cada local:
-    dadosLocais.forEach((local) => {
-        let popup = new mapboxgl.Popup({ offset: 25 })
-            .setHTML(`<h3>
-                        <a href="${local.url}" target="_blank">
-                          ${local.descricao}
-                        </a>
-                      </h3>
-                      <br>${local.endereco} 
-                      <br> ${local.cidade}`);
-
-        const marker = new mapboxgl.Marker({ color: local.cor })
-            .setLngLat(local.latlong)
+    if (!isNaN(latitude) && !isNaN(longitude)) {
+        new mapboxgl.Marker({ color: local.cor })
+            .setLngLat([longitude, latitude])
             .setPopup(popup)
             .addTo(map);
-    });
-
-    // Obtém a localização do usuário e adiciona um marcador:
-    navigator.geolocation.getCurrentPosition(processarGetCurrentPosition, () => { alert('Erro ao obter localização.') });
+    }
 }
 
-// Função para processar a localização do usuário:
-function processarGetCurrentPosition(local) {
-    let popup = new mapboxgl.Popup({ offset: 25 })
-        .setHTML(`<h3> Estou aqui!!! </h3>`);
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-    const marker = new mapboxgl.Marker({ color: 'yellow' })
-        .setLngLat([local.coords.longitude, local.coords.latitude])
+async function fetchComRetry(url, options = {}, tentativas = 3) {
+    for (let i = 0; i < tentativas; i++) {
+        try {
+            const resposta = await fetch(url, {
+                ...options,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    ...options.headers
+                }
+            });
+            
+            if (!resposta.ok) {
+                throw new Error(`Erro HTTP: ${resposta.status} - ${resposta.statusText}`);
+            }
+            
+            return resposta;
+        } catch (erro) {
+            if (i === tentativas - 1) throw erro;
+            await delay(1000 * (i + 1));
+        }
+    }
+}
+
+window.onload = async () => {
+    try {
+        const resposta = await fetchComRetry(URL);
+        const dados = await resposta.json();
+        montarMapa(dados);
+        
+    } catch (erro) {
+        alert(`Erro ao conectar com o servidor: ${erro.message}`);
+        montarMapa([]);
+    }
+};
+
+function montarMapa(dadosLocais) {
+    mapboxgl.accessToken = 'pk.eyJ1Ijoicm9tbWVsY2FybmVpcm8tcHVjIiwiYSI6ImNsb3ZuMTBoejBsd2gyamwzeDZzcWl5b3oifQ.VPWc3qoyon8Z_-URfKpvKg';
+
+    map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v12',
+        center: centralLatLong,
+        zoom: 9
+    });
+
+    map.on('load', () => {
+        dadosLocais.forEach(local => criarMarcador(local));
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(processarGetCurrentPosition);
+        }
+    });
+}
+
+function processarGetCurrentPosition(posicao) {
+    let popup = new mapboxgl.Popup({ offset: 25 })
+        .setHTML(`<h3>Estou aqui!</h3>`);
+
+    new mapboxgl.Marker({ color: 'yellow' })
+        .setLngLat([posicao.coords.longitude, posicao.coords.latitude])
         .setPopup(popup)
         .addTo(map);
 }
 
-function processar() {
+async function processar() {
     const nome = document.getElementById("nome").value.trim();
     const latitude = document.getElementById("latitude").value.trim();
     const longitude = document.getElementById("longitude").value.trim();
     const endereco = document.getElementById("endereco").value.trim();
-    const sum = document.getElementById("descricao").value.trim();
+    const descricao = document.getElementById("descricao").value.trim();
     const url = document.getElementById("url").value.trim();
     const cor = document.getElementById("cor").value;
 
-    var local = {
-        "id": id++,
-        "descricao": sum,
-        "endereco": endereco,
-        "favorito": true,
-        "cidade": nome,
-        "latlong": [
-            latitude,
-            longitude
-        ],
-        "url": url,
-        "cor": cor
+    if (!nome || !latitude || !longitude || !endereco || !descricao) {
+        alert("Preencha todos os campos obrigatórios");
+        return;
+    }
+
+    const lat = parseFloat(latitude);
+    const lng = parseFloat(longitude);
+    
+    if (isNaN(lat) || isNaN(lng)) {
+        alert("Latitude e longitude devem ser números válidos");
+        return;
+    }
+
+    if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+        alert("Coordenadas inválidas. Latitude: -90 a 90, Longitude: -180 a 180");
+        return;
+    }
+
+    const novoLocal = {
+        descricao: descricao,
+        endereco,
+        favorito: true,
+        cidade: nome,
+        latlong: [lng, lat],
+        url: url || '',
+        cor: cor || '#ff0000'
     };
 
-    processarPosicao(local);
+    try {
+        const resposta = await fetchComRetry(URL, {
+            method: 'POST',
+            body: JSON.stringify(novoLocal)
+        });
+
+        const localCriado = await resposta.json();
+        
+        criarMarcador(localCriado);
+        
+        document.getElementById("nome").value = '';
+        document.getElementById("latitude").value = '';
+        document.getElementById("longitude").value = '';
+        document.getElementById("endereco").value = '';
+        document.getElementById("descricao").value = '';
+        document.getElementById("url").value = '';
+        document.getElementById("cor").value = '#ff0000';
+        
+        alert("Local adicionado com sucesso!");
+        
+    } catch (erro) {
+        alert(`Erro ao adicionar local: ${erro.message}`);
+    }
 }
 
-// Função para processar a localização:
-function processarPosicao(local) {
-    let popup = new mapboxgl.Popup({ offset: 25 })
-        .setHTML(`<h3>
-                <a href="${local.url}" target="_blank">
-                ${local.cidade}</h3>
-                </a>
-                  ${local.descricao}<br>
-                  ${local.endereco}`);
+async function editarLocal() {
+    const idEdicao = document.getElementById("idEdicao").value.trim();
+    if (!idEdicao) {
+        alert("Informe um ID válido para editar");
+        return;
+    }
 
-    const marker = new mapboxgl.Marker({ color: local.cor })
-        .setLngLat([local.latlong[1], local.latlong[0]])
-        .setPopup(popup)
-        .addTo(map);
+    const nome = document.getElementById("nome").value.trim();
+    const latitude = document.getElementById("latitude").value.trim();
+    const longitude = document.getElementById("longitude").value.trim();
+    const endereco = document.getElementById("endereco").value.trim();
+    const descricao = document.getElementById("descricao").value.trim();
+    const url = document.getElementById("url").value.trim();
+    const cor = document.getElementById("cor").value;
+
+    if (!nome || !latitude || !longitude || !endereco || !descricao) {
+        alert("Preencha todos os campos obrigatórios");
+        return;
+    }
+
+    const lat = parseFloat(latitude);
+    const lng = parseFloat(longitude);
+    
+    if (isNaN(lat) || isNaN(lng)) {
+        alert("Latitude e longitude devem ser números válidos");
+        return;
+    }
+
+    const localAtualizado = {
+        descricao,
+        endereco,
+        favorito: true,
+        cidade: nome,
+        latlong: [lng, lat],
+        url: url || '',
+        cor: cor || '#ff0000'
+    };
+
+    try {
+        const resposta = await fetchComRetry(`${URL}/${idEdicao}`, {
+            method: 'PUT',
+            body: JSON.stringify(localAtualizado)
+        });
+
+        const resultado = await resposta.json();
+
+        alert("Local atualizado com sucesso!");
+        
+        setTimeout(() => location.reload(), 1000);
+        
+    } catch (erro) {
+        alert(`Erro ao editar local: ${erro.message}`);
+    }
+}
+
+async function excluirLocal() {
+    const idExclusao = document.getElementById("idExclusao").value.trim();
+    if (!idExclusao) {
+        alert("Informe um ID válido para excluir");
+        return;
+    }
+
+    if (!confirm(`Tem certeza que deseja excluir o local com ID ${idExclusao}?`)) {
+        return;
+    }
+
+    try {
+        const resposta = await fetchComRetry(`${URL}/${idExclusao}`, {
+            method: 'DELETE'
+        });
+
+        let resultado;
+        try {
+            resultado = await resposta.json();
+        } catch {
+            resultado = { message: 'Local excluído' };
+        }
+
+        alert("Local excluído com sucesso!");
+        
+        setTimeout(() => location.reload(), 1000);
+        
+    } catch (erro) {
+        alert(`Erro ao excluir local: ${erro.message}`);
+    }
+}
+
+async function listarLocais() {
+    try {
+        const resposta = await fetchComRetry(URL);
+        const dados = await resposta.json();
+        return dados;
+    } catch (erro) {
+        return [];
+    }
 }
